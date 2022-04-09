@@ -33,7 +33,7 @@ steps:
         docker push ${IMAGE_REGISTRY}/${IMAGE_NAME}-${SHORT_SHA}
         
 substitutions:
-  IMAGE_REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo
+  IMAGE_REGISTRY: "us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo"
   IMAGE_NAME: sampleflaskapp
   APP_NAME: demo
    
