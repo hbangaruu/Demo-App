@@ -34,6 +34,6 @@ steps:
         
 substitutions:
   IMAGE_REGISTRY: "us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo"
-  IMAGE_NAME: sampleflaskapp
-  APP_NAME: demo
+  IMAGE_NAME: "sampleflaskapp"
+  APP_NAME: "demo"
    
