@@ -22,7 +22,7 @@ steps:
     args:
     - '-c'
     - |
-        docker build -t ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_AppName}-${SHORT_SHA} .
+        docker build -t ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_APP_NAME}-${SHORT_SHA} .
 
   - name: gcr.io/cloud-builders/docker
     id: Push
@@ -30,10 +30,10 @@ steps:
     args:
     - '-c'
     - |
-        docker push ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_AppName}-${SHORT_SHA}
+        docker push ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_APP_NAME}-${SHORT_SHA}
 
 substitutions:
    _IMAGE_REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo
    _ IMAGE_NAME: sample-flask-app
-   _AppName: demo
+   _APP_NAME: demo
    
