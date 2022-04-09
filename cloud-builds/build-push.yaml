@@ -24,19 +24,16 @@ steps:
    - |
        docker build -t ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_AppName}-${SHORT_SHA} .
 
-- name: gcr.io/cloud-builders/docker
-   id: Build
+ - name: gcr.io/cloud-builders/docker
+   id: Push
    entrypoint: bash
    args:
    - '-c'
    - |
        docker push ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_AppName}-${SHORT_SHA}
 
-
-substitutions:
-  _IMAGE_REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo
-  _IMAGE_NAME: simple-flask-app
-  -AppName: sample-python
-  _PYTHON_VERSION: latest
-  _BANDIT_TESTING_LEVEL: -l
-  _BANDIT_VERBOSE: "false"
+ substitutions:
+   _IMAGE_REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo
+   _IMAGE_NAME: sample-flask-app
+   _AppName: demo
+   
