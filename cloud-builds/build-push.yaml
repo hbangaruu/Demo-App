@@ -1,0 +1,42 @@
+steps:
+ - name: python:${_PYTHON_VERSION}
+   id: Security and stylish linter test
+   entrypoint: bash
+   args:
+   - '-c'
+   - |
+       pip3 install bandit pylint && \
+       echo =====PYLINT==== && \
+       pylint --exit-zero *.py && \
+       echo =====BANDIT==== && \
+       if [[ "${_BANDIT_VERBOSE}" == "true" ]]
+        then
+          echo "=====RUNNING BANDIT WITH VERBOSITY====="
+          bandit -r ${_BANDIT_TESTING_LEVEL} -v .
+        else
+          bandit -r ${_BANDIT_TESTING_LEVEL} .
+        fi
+ - name: gcr.io/cloud-builders/docker
+   id: Build
+   entrypoint: bash
+   args:
+   - '-c'
+   - |
+       docker build -t ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_AppName}-${SHORT_SHA} .
+
+- name: gcr.io/cloud-builders/docker
+   id: Build
+   entrypoint: bash
+   args:
+   - '-c'
+   - |
+       docker push ${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_AppName}-${SHORT_SHA}
+
+
+substitutions:
+  _IMAGE_REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo
+  _IMAGE_NAME: simple-flask-app
+  -AppName: sample-python
+  _PYTHON_VERSION: latest
+  _BANDIT_TESTING_LEVEL: -l
+  _BANDIT_VERBOSE: "false"
