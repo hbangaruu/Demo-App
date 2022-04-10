@@ -5,7 +5,7 @@ steps:
    args:
    - '-c'
    - |
-       docker build -t us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry/simple-python-app:dev-{SHORT_SHA} .
+       docker build -t ${REGISTRY}/${APPNAME}:${ENV}-${SHORT_SHA} .
 
  - name: gcr.io/cloud-builders/docker
    id: Push
@@ -13,4 +13,9 @@ steps:
    args:
    - '-c'
    - |
-       docker push us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry/simple-python-app:dev-{SHORT_SHA} 
+       docker push ${REGISTRY}/${APPNAME}:${ENV}-${SHORT_SHA} 
+       
+ substitutions:
+   REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
+   APPNAME: simplepythonapp
+   ENV: dev
