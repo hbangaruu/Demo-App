@@ -36,6 +36,6 @@ substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
   _APPNAME_: simplepythonapp
   _ENV_: dev
-  _PYTHON_VERSION: latest
+  _PYTHON_VERSION: 3.6
   _BANDIT_TESTING_LEVEL: -l
   _BANDIT_VERBOSE: "false"
