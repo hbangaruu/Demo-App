@@ -8,14 +8,8 @@ steps:
        pip3 install bandit pylint && \
        echo =====PYLINT==== && \
        pylint --exit-zero *.py && \
-       echo =====BANDIT==== && \
-       if [[ "${_BANDIT_VERBOSE}" == "true" ]]
-        then
-          echo "=====RUNNING BANDIT WITH VERBOSITY====="
-          bandit -r ${_BANDIT_TESTING_LEVEL} -v .
-        else
-          bandit -r ${_BANDIT_TESTING_LEVEL} .
-        fi
+       echo "lint test is done & use bandit for bussiness code security analysis"
+       
   - name: gcr.io/cloud-builders/docker
     id: Build
     entrypoint: bash
@@ -36,6 +30,4 @@ substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
   _APPNAME_: simplepythonapp
   _ENV_: dev
-  _PYTHON_VERSION: 3.6
-  _BANDIT_TESTING_LEVEL: -lll
-  _BANDIT_VERBOSE: "false"
+  _PYTHON_VERSION: latest
