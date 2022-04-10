@@ -1,4 +1,21 @@
 steps:
+  - name: python:${_PYTHON_VERSION}
+   id: Security and stylish linter test
+   entrypoint: bash
+   args:
+   - '-c'
+   - |
+       pip3 install bandit pylint && \
+       echo =====PYLINT==== && \
+       pylint --exit-zero *.py && \
+       echo =====BANDIT==== && \
+       if [[ "${_BANDIT_VERBOSE}" == "true" ]]
+        then
+          echo "=====RUNNING BANDIT WITH VERBOSITY====="
+          bandit -r ${_BANDIT_TESTING_LEVEL} -v .
+        else
+          bandit -r ${_BANDIT_TESTING_LEVEL} .
+        fi
  - name: gcr.io/cloud-builders/docker
    id: Build
    entrypoint: bash
@@ -19,3 +36,6 @@ substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
   _APPNAME_: simplepythonapp
   _ENV_: dev
+  _PYTHON_VERSION: latest
+  _BANDIT_TESTING_LEVEL: -l
+  _BANDIT_VERBOSE: "false"
