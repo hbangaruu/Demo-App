@@ -13,9 +13,9 @@ steps:
    args:
    - '-c'
    - |
-       docker push ${REGISTRY}/${APPNAME}:${ENV}-${SHORT_SHA} 
+       docker push ${REGISTRY}/${APPNAME}:${ENV}-${SHORT_SHA}
        
- substitutions:
+substitutions:
    REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
    APPNAME: simplepythonapp
    ENV: dev
