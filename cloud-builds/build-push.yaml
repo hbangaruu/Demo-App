@@ -1,37 +1,16 @@
 steps:
-  - name: python:${_PYTHON_VERSION}
-    id: Security and stylish linter test
-    entrypoint: bash
-    args:
-      - '-c'
-      - |
-        pip3 install bandit pylint && \
-        echo =====PYLINT==== && \
-        pylint --exit-zero *.py && \
-        echo =====BANDIT==== && \
-        if [[ "${_BANDIT_VERBOSE}" == "true" ]]
-        then
-          echo "=====RUNNING BANDIT WITH VERBOSITY====="
-          bandit -r ${_BANDIT_TESTING_LEVEL} -v .
-        else
-          bandit -r ${_BANDIT_TESTING_LEVEL} .
-        fi
-  - name: gcr.io/cloud-builders/docker
-    id: Build
-    entrypoint: bash
-    args:
-    - '-c'
-    - |
-        docker build -t ${IMAGE_REGISTRY}/${IMAGE_NAME}-${SHORT_SHA} .
+ - name: gcr.io/cloud-builders/docker
+   id: Build
+   entrypoint: bash
+   args:
+   - '-c'
+   - |
+       docker build -t us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry:sample-flask-app-{SHORT_SHA} .
 
-  - name: gcr.io/cloud-builders/docker
-    id: Push
-    entrypoint: bash
-    args:
-    - '-c'
-    - |
-        docker push ${IMAGE_REGISTRY}/${IMAGE_NAME}-${SHORT_SHA}
-        
-substitutions:
-  IMAGE_REGISTRY: "us-central1-docker.pkg.dev/test-cloudbuild-8712/sample-repo"
-  IMAGE_NAME: "sampleflaskapp" 
+ - name: gcr.io/cloud-builders/docker
+   id: Push
+   entrypoint: bash
+   args:
+   - '-c'
+   - |
+       docker push us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry:sample-flask-app-${SHORT_SHA}
