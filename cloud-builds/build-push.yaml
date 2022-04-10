@@ -37,5 +37,5 @@ substitutions:
   _APPNAME_: simplepythonapp
   _ENV_: dev
   _PYTHON_VERSION: 3.6
-  _BANDIT_TESTING_LEVEL: -l
+  _BANDIT_TESTING_LEVEL: -lll
   _BANDIT_VERBOSE: "false"
