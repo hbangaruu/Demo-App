@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: docker push us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry/simplepytho-app
+  repository: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry/simplepythonapp
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "dev-effc594"
@@ -37,8 +37,8 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 8082
+  type: LoadBalancer
+  port: 8083
 
 ingress:
   enabled: false
