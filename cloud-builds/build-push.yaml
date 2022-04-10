@@ -16,6 +16,6 @@ steps:
        docker push ${REGISTRY}/${APPNAME}:${ENV}-${SHORT_SHA}
        
 substitutions:
-   REGISTRY: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
-   APPNAME: simplepythonapp
-   ENV: dev
+  _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
+  _APPNAME_: simplepythonapp
+  _ENV_: dev
