@@ -1,15 +1,4 @@
-steps:
-  - name: python:${_PYTHON_VERSION}
-    id: Security and stylish linter test
-    entrypoint: bash
-    args:
-    - '-c'
-    - |
-       pip3 install bandit pylint && \
-       echo =====PYLINT==== && \
-       pylint --exit-zero *.py && \
-       echo "lint test is done & use bandit for bussiness code security analysis"
-       
+steps:     
   - name: gcr.io/cloud-builders/docker
     id: Build
     entrypoint: bash
