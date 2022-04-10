@@ -1,10 +1,10 @@
 steps:
   - name: python:${_PYTHON_VERSION}
-   id: Security and stylish linter test
-   entrypoint: bash
-   args:
-   - '-c'
-   - |
+    id: Security and stylish linter test
+    entrypoint: bash
+    args:
+    - '-c'
+    - |
        pip3 install bandit pylint && \
        echo =====PYLINT==== && \
        pylint --exit-zero *.py && \
@@ -16,20 +16,20 @@ steps:
         else
           bandit -r ${_BANDIT_TESTING_LEVEL} .
         fi
- - name: gcr.io/cloud-builders/docker
-   id: Build
-   entrypoint: bash
-   args:
-   - '-c'
-   - |
-       docker build -t ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${SHORT_SHA} .
+  - name: gcr.io/cloud-builders/docker
+    id: Build
+    entrypoint: bash
+    args:
+    - '-c'
+    - |
+        docker build -t ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${SHORT_SHA} .
 
- - name: gcr.io/cloud-builders/docker
-   id: Push
-   entrypoint: bash
-   args:
-   - '-c'
-   - |
+  - name: gcr.io/cloud-builders/docker
+    id: Push
+    entrypoint: bash
+    args:
+    - '-c'
+    - |
        docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${SHORT_SHA}
        
 substitutions:
