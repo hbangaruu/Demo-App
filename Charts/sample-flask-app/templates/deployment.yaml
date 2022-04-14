@@ -48,11 +48,11 @@ spec:
       initContainers:
       - name: secrets
         image: gcr.io/google.com/cloudsdktool/cloud-sdk
-      args:
-      - echo "API_KEY=$(gcloud secrets versions access latest --secret=\"api_key\")" >> super_secret.env
-      volumeMounts:
-      - name: config-data
-        mountPath: /data
+        args:
+        - echo "API_KEY=$(gcloud secrets versions access latest --secret=\"api_key\")" >> super_secret.env
+        volumeMounts:
+        - name: config-data
+          mountPath: /data
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
