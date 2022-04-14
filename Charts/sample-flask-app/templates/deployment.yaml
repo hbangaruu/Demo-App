@@ -40,19 +40,23 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          - name: config-data
-            mountPath: /data
+          - name: web
+            mountPath: 'etc/html'
       volumes:
-      - name: config-data
+      - name: web
         emptyDir: {}
       initContainers:
-      - name: secrets
-        image: gcr.io/google.com/cloudsdktool/cloud-sdk
-        args:
-        - echo "API_KEY=$(gcloud secrets versions access latest --secret=\"api_key\")" >> super_secret.env
+      - name: clone-repo
+        image: alpine/git
+        command:
+        - git
+        - clone
+        - --progress
+        - https://github.com/peterj/simple-http-page.git
+        - /etc/html
         volumeMounts:
-        - name: config-data
-          mountPath: /data
+        - name: web
+          mountPath: '/etc/html'
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
