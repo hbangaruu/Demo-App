@@ -40,28 +40,26 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          - name: web
-            mountPath: 'etc/html'
+          - name: key-vol
+            mountPath: /vol
       volumes:
-      - name: web
+      - name: key-vol
         emptyDir: {}
       initContainers:
-      - name: secrets
+      - name: get-secrets
         image: gcr.io/google.com/cloudsdktool/cloud-sdk
-        command: [ "/bin/bash", "-c" ]
-        args: 
-        - 
-           ENV_FILEPATH=".env";
-           rm $ENV_FILEPATH;
-           gcloud secrets list | sed 1d | awk '{print $1}' | while read VAR_NAME; do
-           VAR_VALUE=$(gcloud secrets versions access latest --secret="$VAR_NAME");
-           if [ $VAR_VALUE ];then
-              echo "$VAR_NAME=$VAR_VALUE" >> $ENV_FILEPATH
-           fi;
-           done
-         volumeMounts:
-         - name: web
-           mountPath: 'etc/html'
+        command:
+        - /bin/sh
+        - -c
+        - |
+          API_KEY=$(gcloud secrets versions access latest --secret="api_key")
+          echo $API_KEY
+          mkdir -p /vol
+          touch /vol/api_key
+          echo $API_KEY >> /vol/api_key
+        volumeMounts:
+        - mountPath: /vol
+          name: key-vol
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
