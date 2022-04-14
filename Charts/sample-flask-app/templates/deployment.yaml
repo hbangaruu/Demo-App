@@ -39,6 +39,20 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: config-data
+            mountPath: /data
+      volumes:
+      - name: config-data
+        emptyDir: {}
+      initContainers:
+      - name: secrets
+        image: gcr.io/google.com/cloudsdktool/cloud-sdk
+      args:
+      - echo "API_KEY=$(gcloud secrets versions access latest --secret=\"api_key\")" >> super_secret.env
+      volumeMounts:
+      - name: config-data
+        mountPath: /data
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
