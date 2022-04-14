@@ -46,17 +46,22 @@ spec:
       - name: web
         emptyDir: {}
       initContainers:
-      - name: clone-repo
-        image: alpine/git
-        command:
-        - git
-        - clone
-        - --progress
-        - https://github.com/peterj/simple-http-page.git
-        - /etc/html
-        volumeMounts:
-        - name: web
-          mountPath: '/etc/html'
+      - name: secrets
+        image: gcr.io/google.com/cloudsdktool/cloud-sdk
+        command: [ "/bin/bash", "-c" ]
+        args: 
+        - 
+           ENV_FILEPATH=".env";
+           rm $ENV_FILEPATH;
+           gcloud secrets list | sed 1d | awk '{print $1}' | while read VAR_NAME; do
+           VAR_VALUE=$(gcloud secrets versions access latest --secret="$VAR_NAME");
+           if [ $VAR_VALUE ];then
+              echo "$VAR_NAME=$VAR_VALUE" >> $ENV_FILEPATH
+           fi;
+           done
+         volumeMounts:
+         - name: web
+           mountPath: 'etc/html'
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
