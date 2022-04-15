@@ -24,7 +24,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "sample-flask-app.serviceAccountName" . }}
+      serviceAccountName: external-secrets
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
