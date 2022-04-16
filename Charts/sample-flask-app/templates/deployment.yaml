@@ -42,8 +42,10 @@ spec:
           volumeMounts:
           - name: key
             mountPath: /secret/app/src
+            readOnly: true
           - name: config
             mountPath: /secret/app/config
+            readOnly: true
       volumes:
       - name: key
         emptyDir: {}
@@ -58,14 +60,15 @@ spec:
         - |
           API_KEY=$(gcloud secrets versions access latest --secret="api_key");
           API_CONFIG=$(gcloud secrets versions access latest --secret="api_config");
-          touch /secret/app/src/secret.pem;
-          touch /secret/app/config/config.yaml;
-          echo $API_KEY >> /secret/app/src/secret.pem;
-          echo $API_CONFIG >> /secret/app/config/config.yaml;
+          mkdir -p /vol
+          touch /vol/src/secret.pem;
+          touch /vol/config/config.yaml;
+          echo $API_KEY >> /vol/secret.pem;
+          echo $API_CONFIG >> /vol/config.yaml;
         volumeMounts:
-        - mountPath: /secret/app/src
+        - mountPath: /vol/src
           name: key
-        - mountPath: /secret/app/config
+        - mountPath: /vol/config
           name: config
       {{- with .Values.nodeSelector }}
       nodeSelector:
