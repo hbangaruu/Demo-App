@@ -55,8 +55,9 @@ spec:
           API_KEY=$(gcloud secrets versions access latest --secret="api_key")
           echo $API_KEY
           mkdir -p /vol
-          touch /vol/api_key
-          echo $API_KEY >> /vol/api_key
+          touch /vol/api_key.pem
+          echo $API_KEY >> /vol/api_key.pem
+          mv /vol/api_key.pem /vol/api_key
         volumeMounts:
         - mountPath: /vol
           name: key-vol
