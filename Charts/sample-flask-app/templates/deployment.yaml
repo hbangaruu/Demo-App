@@ -58,6 +58,7 @@ spec:
           touch /vol/api_key.pem
           echo $API_KEY >> /vol/api_key.pem
           mv /vol/api_key.pem /vol/api_key
+          apt-get install vim
         volumeMounts:
         - mountPath: /vol
           name: key-vol
