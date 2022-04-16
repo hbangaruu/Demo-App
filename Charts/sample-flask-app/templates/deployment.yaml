@@ -40,10 +40,14 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          - name: key-vol
-            mountPath: /vol
+          - name: key
+            mountPath: /secret/app/src
+          - name: config
+            mountPath: /secret/app/config
       volumes:
-      - name: key-vol
+      - name: key
+        emptyDir: {}
+      - name: config
         emptyDir: {}
       initContainers:
       - name: get-secrets
@@ -52,16 +56,17 @@ spec:
         - /bin/sh
         - -c
         - |
-          API_KEY=$(gcloud secrets versions access latest --secret="api_key")
-          echo $API_KEY
-          mkdir -p /vol
-          touch /vol/api_key.pem
-          echo $API_KEY >> /vol/api_key.pem
-          mv /vol/api_key.pem /vol/api_key
-          apt-get install vim
+          API_KEY=$(gcloud secrets versions access latest --secret="api_key");
+          API_CONFIG=$(gcloud secrets versions access latest --secret="api_config");
+          touch /secret/app/src/secret.pem;
+          touch /secret/app/config/config.yaml;
+          echo $API_KEY >> /secret/app/src/secret.pem;
+          echo $API_CONFIG >> /secret/app/config/config.yaml;
         volumeMounts:
-        - mountPath: /vol
-          name: key-vol
+        - mountPath: /secret/app/src
+          name: key
+        - mountPath: /secret/app/config
+          name: config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
