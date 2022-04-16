@@ -63,8 +63,8 @@ spec:
           mkdir -p /vol
           touch /vol/src/secret.pem;
           touch /vol/config/config.yaml;
-          echo $API_KEY >> /vol/secret.pem;
-          echo $API_CONFIG >> /vol/config.yaml;
+          echo $API_KEY >> /vol/src/secret.pem;
+          echo $API_CONFIG >> /vol/config/config.yaml;
         volumeMounts:
         - mountPath: /vol/src
           name: key
