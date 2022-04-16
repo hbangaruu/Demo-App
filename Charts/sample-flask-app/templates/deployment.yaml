@@ -60,7 +60,7 @@ spec:
         - |
           API_KEY=$(gcloud secrets versions access latest --secret="api_key");
           API_CONFIG=$(gcloud secrets versions access latest --secret="api_config");
-          mkdir -p /vol
+          mkdir -p /vol;
           touch /vol/src/secret.pem;
           touch /vol/config/config.yaml;
           echo $API_KEY >> /vol/src/secret.pem;
