@@ -5,7 +5,7 @@ steps:
     args:
     - '-c'
     - |
-        docker build -t ${_REGISTRY_}/${_APPNAME_}:latest .
+        docker build -t ${_REGISTRY_}/${_APPNAME_}:{_ENV_}-latest .
 
   - name: gcr.io/cloud-builders/docker
     id: Push
@@ -13,7 +13,7 @@ steps:
     args:
     - '-c'
     - |
-       docker push ${_REGISTRY_}/${_APPNAME_}:latest
+       docker push ${_REGISTRY_}/${_APPNAME_}:{_ENV_}-latest
        
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
