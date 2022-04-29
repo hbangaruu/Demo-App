@@ -13,7 +13,7 @@ steps:
     args:
     - '-c'
     - |
-       docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${_IMGV_} ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${SHORT_SHA}
+       docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${_IMGV_}
        
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
