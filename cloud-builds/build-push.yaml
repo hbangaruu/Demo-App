@@ -30,8 +30,8 @@ steps:
       ls
       sed -i "s|tag: .*|tag: $SHORT_SHA|" Charts/sample-flask-app/values.yaml
       echo "Pushing changes to git config repo ..."
-      git config --global user.name Harikrishna Bangaru
-      git config --global user.email hbangaruu
+      git config --global user.name hbangaruu
+      git config --global user.email hkbangaru@gmail.com
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
       git push origin ${_BRANCH}
