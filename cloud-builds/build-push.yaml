@@ -24,7 +24,7 @@ steps:
     - |
       echo "Cloning repo ..."
       git clone --depth 1 https://github.com/hbangaruu/Demo-App.git
-      git checkout {_BRANCH}
+      git checkout ${_BRANCH}
       echo "Updating image tag version ..."
       cd Demo-App
       ls
