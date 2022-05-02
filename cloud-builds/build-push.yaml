@@ -16,9 +16,30 @@ steps:
        docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${_IMGV_}
        docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${SHORT_SHA}
        
+  # Edit Kustomize layer in config repo and push changes
+  - name: gcr.io/cloud-builders/git
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      echo "Cloning repo ..."
+      git clone --depth 1 https://github.com/hbangaruu/Demo-App.git
+      git checkout {_BRANCH}
+      echo "Updating image tag version ..."
+      cd Demo-App
+      ls
+      sed -i "s|tag: .*|tag: $SHORT_SHA|" Charts/sample-flask-app/values.yaml
+      echo "Pushing changes to git config repo ..."
+      git config --global user.name Harikrishna Bangaru
+      git config --global user.email hbangaruu
+      git add -A
+      git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
+      git push origin ${_BRANCH}
+      
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
   _APPNAME_: simplepythonapp
   _ENV_: dev
   _PYTHON_VERSION: latest
   _IMGV_: latest
+  _BRANCH: main
