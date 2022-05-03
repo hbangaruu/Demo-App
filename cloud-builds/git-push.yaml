@@ -31,6 +31,7 @@ steps:
     - |
       echo "Cloning repo ..."
       git clone --depth 1 https://github.com/hbangaruu/Demo-App.git
+      git checkout main
       echo "Updating image tag version ..."
       cd Demo-App
       ls
@@ -41,7 +42,7 @@ steps:
       git config --global user.email hkbangaru@gmail.com
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
-      git push origin master
+      git push origin main
     volumes:
     - name: 'ssh'
       path: /root/.ssh
