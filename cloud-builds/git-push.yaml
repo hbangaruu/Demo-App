@@ -30,15 +30,17 @@ steps:
     - '-c'
     - |
       echo "Cloning repo ..."
+      git config --global user.email "hkbangaru@gmail.com.com"
+      git config --global user.name "hbangaruu"
       git clone --depth 1 git@github.com:hbangaruu/Demo-App.git
       echo "Updating image tag version ..."
-      cd gcp-cicd-demo-config
+      cd Demo-App
       ls
       sed -i "s|tag: .*|tag: $SHORT_SHA|" Charts/sample-flask-app/values.yaml
       echo "Pushing changes to git config repo ..."
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
-      git push origin master
+      git push origin
     volumes:
     - name: 'ssh'
       path: /root/.ssh
