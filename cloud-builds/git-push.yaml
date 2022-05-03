@@ -33,7 +33,6 @@ steps:
       git config --global user.email "hkbangaru@gmail.com.com"
       git config --global user.name "hbangaruu"
       git clone --depth 1 git@github.com:hbangaruu/Demo-App.git
-      git push --set-upstream origin master
       echo "Updating image tag version ..."
       cd Demo-App
       ls
@@ -41,7 +40,7 @@ steps:
       echo "Pushing changes to git config repo ..."
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
-      git push origin master
+      git push --set-upstream origin master
     volumes:
     - name: 'ssh'
       path: /root/.ssh
