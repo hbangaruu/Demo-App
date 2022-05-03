@@ -41,7 +41,7 @@ steps:
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
       git push --set-upstream origin master
-      git push origin
+      git push origin master
     volumes:
     - name: 'ssh'
       path: /root/.ssh
