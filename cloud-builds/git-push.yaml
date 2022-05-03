@@ -6,12 +6,11 @@ steps:
     volumes:
     - name: 'ssh'
       path: /root/.ssh
-
+      
   # Set up git with key and domain
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
     args:
-    - name: 'ssh'
     - '-c'
     - |
       chmod 600 /root/.ssh/id_github
@@ -21,8 +20,9 @@ steps:
       EOF
       ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
     volumes:
+    - name: 'ssh'
       path: /root/.ssh
-
+      
   # Edit Kustomize layer in config repo and push changes
   - name: gcr.io/cloud-builders/git
     entrypoint: 'bash'
