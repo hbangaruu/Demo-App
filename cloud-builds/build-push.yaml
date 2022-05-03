@@ -60,7 +60,8 @@ steps:
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
       git remote set-url origin 'git@github.com:hbangaruu/Demo-App.git'
-      git push origin
+      git push --set-upstream origin master
+      git push origin master
       
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
@@ -68,4 +69,4 @@ substitutions:
   _ENV_: dev
   _PYTHON_VERSION: latest
   _IMGV_: latest
-  _BRANCH: main
+  _BRANCH: master
