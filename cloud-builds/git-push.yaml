@@ -30,7 +30,7 @@ steps:
     - '-c'
     - |
       echo "Cloning repo ..."
-      git clone --depth 1 git@github.com:hbangaruu/Demo-App.git
+      git clone --depth 1 https://github.com/hbangaruu/Demo-App.git
       echo "Updating image tag version ..."
       cd Demo-App
       ls
