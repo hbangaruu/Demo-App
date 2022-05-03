@@ -51,7 +51,6 @@ steps:
       git config --global user.name hbangaruu
       git config --global user.email hkbangaru@gmail.com
       git clone --depth 1 git@github.com:hbangaruu/Demo-App.git
-      git checkout ${_BRANCH}
       echo "Updating image tag version ..."
       cd Demo-App
       ls
@@ -59,7 +58,7 @@ steps:
       echo "Pushing changes to git config repo ..."
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
-      git push origin
+      git push origin master
       
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
@@ -67,4 +66,3 @@ substitutions:
   _ENV_: dev
   _PYTHON_VERSION: latest
   _IMGV_: latest
-  _BRANCH: main
