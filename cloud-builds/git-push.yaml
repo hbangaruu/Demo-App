@@ -37,6 +37,7 @@ steps:
       echo "Updating image tag version ..."
       cd Demo-App
       ls
+      git remote set-url origin https://hbangaruu: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@github.com/hbangaruu/Demo-App.git
       sed -i "s|tag: .*|tag: ${SHORT_SHA}|" Charts/sample-flask-app/values.yaml
       echo "Updating tag..."
       echo "Pushing changes to git config repo ..."
