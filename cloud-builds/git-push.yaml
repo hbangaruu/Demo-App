@@ -33,9 +33,7 @@ steps:
       git config --global user.email hkbangaru@gmail.com
       git config --global user.name hbangaruu
       git clone --depth 1 https://hbangaruu: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@github.com/hbangaruu/Demo-App.git
-      git remote add origin https://hbangaruu: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@github.com/hbangaruu/Demo-App.git
       git checkout main
-      git remote set-url origin https://hbangaruu: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@github.com/hbangaruu/Demo-App.git
       echo "Updating image tag version ..."
       cd Demo-App
       ls
