@@ -15,8 +15,6 @@ steps:
     - |
        docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${SHORT_SHA}
        
-       
-  steps:
   # Access the id_github file from Secret Manager
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
