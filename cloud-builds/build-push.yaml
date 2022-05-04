@@ -18,10 +18,11 @@ steps:
   # Access the id_github file from Secret Manager
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
-    args: [ '-c', 'gcloud secrets versions access latest --secret=git-ssh-gk > /root/.ssh/id_github' ]
+    args: [ '-c', '$GIT_KEY > /root/.ssh/id_github' ]
     volumes:
     - name: 'ssh'
       path: /root/.ssh
+  secretEnv: ['GIT_KEY']
       
   # Set up git with key and domain
   - name: 'gcr.io/cloud-builders/git'
@@ -64,9 +65,16 @@ steps:
     - name: 'ssh'
       path: /root/.ssh
       
+availableSecrets:
+  secretManager:
+  - versionName: projects/${_PROJECT_}/secrets/${_KEY_}/versions/latest
+    env: GIT_KEY
+    
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
   _APPNAME_: simplepythonapp
+  _PROJECT_: test-cloudbuild-8712
   _ENV_: dev
   _PYTHON_VERSION: latest
   _IMGV_: latest
+  _KEY_: git-ssh-gk
