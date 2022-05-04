@@ -18,7 +18,7 @@ steps:
   # Access the id_github file from Secret Manager
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
-    args: [ '-c', '$$GIT_KEY > /root/.ssh/id_github' ]
+    args: [ '-c', 'cat $GIT_KEY > /root/.ssh/id_github' ]
     volumes:
     - name: 'ssh'
       path: /root/.ssh
