@@ -22,7 +22,7 @@ steps:
     volumes:
     - name: 'ssh'
       path: /root/.ssh
-  secretEnv: ['GIT_KEY']
+    secretEnv: ['GIT_KEY']
       
   # Set up git with key and domain
   - name: 'gcr.io/cloud-builders/git'
