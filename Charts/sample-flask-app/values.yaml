@@ -8,7 +8,7 @@ image:
   repository: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry/simplepythonapp
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: dev-fca3971
+  tag: dev-8b573c7
 
 imagePullSecrets: []
 nameOverride: ""
