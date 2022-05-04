@@ -1,28 +1,28 @@
 steps:
   # Access the id_github file from Secret Manager
-  - name: gcr.io/cloud-builders/gcloud
-    entrypoint: 'bash'
-    args: [ '-c', 'gcloud secrets versions access latest --secret=github-ssh > /root/.ssh/id_github' ]
-    volumes:
-    - name: 'ssh'
-      path: /root/.ssh
-      
+  #- name: gcr.io/cloud-builders/gcloud
+  #  entrypoint: 'bash'
+  #  args: [ '-c', 'gcloud secrets versions access latest --secret=github-ssh > /root/.ssh/id_github' ]
+  #  volumes:
+  #  - name: 'ssh'
+  #    path: /root/.ssh
+  #    
   # Set up git with key and domain
-  - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'bash'
-    args:
-    - '-c'
-    - |
-      chmod 600 /root/.ssh/id_github
-      cat <<EOF >/root/.ssh/config
-      Hostname github.com
-      IdentityFile /root/.ssh/id_github
-      EOF
-      ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
-    volumes:
-    - name: 'ssh'
-      path: /root/.ssh
-      
+  #- name: 'gcr.io/cloud-builders/git'
+  #  entrypoint: 'bash'
+  #  args:
+  #  - '-c'
+  #  - |
+  #    chmod 600 /root/.ssh/id_github
+  #    cat <<EOF >/root/.ssh/config
+  #    Hostname github.com
+  #    IdentityFile /root/.ssh/id_github
+  #    EOF
+  #   ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+  #  volumes:
+  #  - name: 'ssh'
+  #    path: /root/.ssh
+  #    
   # Edit Kustomize layer in config repo and push changes
   - name: gcr.io/cloud-builders/git
     entrypoint: 'bash'
@@ -30,20 +30,18 @@ steps:
     - '-c'
     - |
       echo "Cloning repo ..."
-      git clone --depth 1 git@github.com:hbangaruu/Demo-App.git
+      
+      git clone --depth 1 https://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@github.com/hbangaruu/Demo-App.git
+      git remote add origin https://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@github.com/hbangaruu/Demo-App.git
       git checkout main
-      git remote set-url origin git@github.com:hbangaruu/Demo-App.git
+      git remote set-url origin https://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@github.com/hbangaruu/Demo-App.git
       echo "Updating image tag version ..."
       cd Demo-App
       ls
       sed -i "s|tag: .*|tag: ${SHORT_SHA}|" Charts/sample-flask-app/values.yaml
       echo "Updating tag..."
       echo "Pushing changes to git config repo ..."
-      git config --global user.name hbangaruu
-      git config --global user.email hkbangaru@gmail.com
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
       git push origin main
-    volumes:
-    - name: 'ssh'
-      path: /root/.ssh
+
