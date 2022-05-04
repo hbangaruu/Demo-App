@@ -13,14 +13,14 @@ steps:
     args:
     - '-c'
     - |
-       docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${_IMGV_}
        docker push ${_REGISTRY_}/${_APPNAME_}:${_ENV_}-${SHORT_SHA}
        
        
+  steps:
   # Access the id_github file from Secret Manager
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
-    args: [ '-c', 'gcloud secrets versions access latest --secret=github > /root/.ssh/id_github' ]
+    args: [ '-c', 'gcloud secrets versions access latest --secret=github-ssh > /root/.ssh/id_github' ]
     volumes:
     - name: 'ssh'
       path: /root/.ssh
@@ -40,7 +40,7 @@ steps:
     volumes:
     - name: 'ssh'
       path: /root/.ssh
-       
+      
   # Edit Kustomize layer in config repo and push changes
   - name: gcr.io/cloud-builders/git
     entrypoint: 'bash'
@@ -48,17 +48,23 @@ steps:
     - '-c'
     - |
       echo "Cloning repo ..."
-      git config --global user.name hbangaruu
-      git config --global user.email hkbangaru@gmail.com
       git clone --depth 1 git@github.com:hbangaruu/Demo-App.git
+      git checkout main
+      git remote set-url origin git@github.com:hbangaruu/Demo-App.git
       echo "Updating image tag version ..."
       cd Demo-App
       ls
-      sed -i "s|tag: .*|tag: $SHORT_SHA|" Charts/sample-flask-app/values.yaml
+      sed -i "s|tag: .*|tag: ${_ENV}-${SHORT_SHA}|" Charts/sample-flask-app/values.yaml
+      echo "Updating tag..."
       echo "Pushing changes to git config repo ..."
+      git config --global user.name hbangaruu
+      git config --global user.email hkbangaru@gmail.com
       git add -A
       git commit -m "Updated with build ${BUILD_ID} from ${REPO_NAME} commit ${COMMIT_SHA}"
-      git push origin master
+      git push origin main
+    volumes:
+    - name: 'ssh'
+      path: /root/.ssh
       
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
