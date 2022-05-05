@@ -63,11 +63,6 @@ steps:
     volumes:
     - name: 'ssh'
       path: /root/.ssh
-      
-availableSecrets:
-  secretManager:
-  - versionName: projects/${_PROJECT_}/secrets/${_SECRET_}/versions/latest
-    env: GIT_KEY
     
 substitutions:
   _REGISTRY_: us-central1-docker.pkg.dev/test-cloudbuild-8712/demo-registry
